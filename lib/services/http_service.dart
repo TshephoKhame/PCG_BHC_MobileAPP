@@ -26,7 +26,7 @@ class HttpService {
   Future<Map<String, dynamic>> login(
       {required String email, required String password}) async {
     Map<String, dynamic> response = {};
-    await Future.delayed(const Duration(seconds: 2)).then((res) {
+    await Future.delayed(const Duration(seconds: 3)).then((res) {
       //TODO: call login API from BAKANG
       response['success'] = res['success'] ?? true;
       response['message'] = res['message'] ?? "unknown response message";

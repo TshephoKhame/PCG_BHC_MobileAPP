@@ -12,10 +12,12 @@ class LoginView extends StackedView<LoginViewModel> {
     LoginViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Container(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+        ),
       ),
     );
   }
@@ -24,5 +26,5 @@ class LoginView extends StackedView<LoginViewModel> {
   LoginViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      LoginViewModel();
+      LoginViewModel(context);
 }
