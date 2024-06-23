@@ -37,6 +37,10 @@ dependencies:
   sn_progress_dialog: ^1.1.4
   stacked: ^3.4.0
   stacked_services: ^1.1.0
+  vr_player: ^0.2.2
+  avatar_better: ^0.0.7
+  shimmer_animation: ^2.2.1
+  loading_indicator: ^3.1.1
 
 dev_dependencies:
   build_runner: ^2.4.5

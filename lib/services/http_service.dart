@@ -29,6 +29,7 @@ class HttpService {
     await Future.delayed(const Duration(seconds: 3)).then((res) {
       //TODO: call login API from BAKANG
       response['success'] = res['success'] ?? true;
+      response['userId'] = res['userId'];
       response['message'] = res['message'] ?? "unknown response message";
     });
     return response;

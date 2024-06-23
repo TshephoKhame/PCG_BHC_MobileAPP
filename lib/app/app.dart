@@ -12,6 +12,11 @@ import 'package:bhc_mobile/ui/views/register/register_view.dart';
 import 'package:bhc_mobile/ui/views/login/login_view.dart';
 import 'package:bhc_mobile/services/auth_service.dart';
 import 'package:bhc_mobile/services/appwrite_service.dart';
+import 'package:bhc_mobile/ui/views/complete_profile/complete_profile_view.dart';
+import 'package:bhc_mobile/ui/views/maintenance_requests/maintenance_requests_view.dart';
+import 'package:bhc_mobile/ui/views/payments/payments_view.dart';
+import 'package:bhc_mobile/ui/views/information_center/information_center_view.dart';
+import 'package:bhc_mobile/ui/views/reporting_analytics/reporting_analytics_view.dart';
 // @stacked-import
 
 @StackedApp(routes: [
@@ -19,6 +24,11 @@ import 'package:bhc_mobile/services/appwrite_service.dart';
   MaterialRoute(page: StartupView),
   MaterialRoute(page: RegisterView),
   MaterialRoute(page: LoginView),
+  MaterialRoute(page: CompleteProfileView),
+  MaterialRoute(page: MaintenanceRequestsView),
+  MaterialRoute(page: PaymentsView),
+  MaterialRoute(page: InformationCenterView),
+  MaterialRoute(page: ReportingAnalyticsView),
 // @stacked-route
 ], dependencies: [
   LazySingleton(classType: BottomSheetService),

@@ -10,7 +10,7 @@ class AppwriteService {
   late Account account;
   late Realtime realtime;
 
-  AppwriteService(){
+  AppwriteService() {
     _client = Client()
       ..setProject(_projectId)
       ..setEndpoint(_endpoint)
@@ -19,5 +19,4 @@ class AppwriteService {
     account = Account(_client);
     realtime = Realtime(_client);
   }
-
 }

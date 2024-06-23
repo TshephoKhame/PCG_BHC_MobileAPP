@@ -7,7 +7,7 @@ import '../../../common/app_colors.dart';
 import '../../../common/text_styles.dart';
 import '../../../common/ui_helpers.dart';
 
-class RTextField extends StatelessWidget {
+class RTextField extends StatefulWidget {
   final String controlName;
   final String label;
   final String? description;
@@ -20,6 +20,7 @@ class RTextField extends StatelessWidget {
   final bool? readOnly;
   final bool required;
   final bool autofocus;
+  final bool isPassword;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -36,6 +37,7 @@ class RTextField extends StatelessWidget {
       this.show = true,
       this.maxLines = 1,
       this.required = false,
+      this.isPassword = false,
       this.readOnly,
       this.maxLength,
       this.autofocus = false,
@@ -47,13 +49,25 @@ class RTextField extends StatelessWidget {
       this.inputFormatters});
 
   @override
+  State<RTextField> createState() => _RTextFieldState();
+}
+
+class _RTextFieldState extends State<RTextField> {
+  late bool passwordVisible;
+  @override
+  void initState() {
+    passwordVisible = false;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (required)
+          if (widget.required)
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Row(
@@ -69,32 +83,38 @@ class RTextField extends StatelessWidget {
               ),
             ),
           ReactiveTextField(
-            formControlName: controlName,
-            maxLines: maxLines,
-            controller: controller,
+            formControlName: widget.controlName,
+            maxLines: widget.maxLines,
+            controller: widget.controller,
             maxLengthEnforcement:
-                maxLength != null ? MaxLengthEnforcement.enforced : null,
-            maxLength: maxLength,
-            readOnly: readOnly ?? false,
-            autofocus: autofocus,
-            validationMessages: validationMessages,
-            inputFormatters: inputFormatters,
-            keyboardType: textInputType,
+                widget.maxLength != null ? MaxLengthEnforcement.enforced : null,
+            maxLength: widget.maxLength,
+            readOnly: widget.readOnly ?? false,
+            autofocus: widget.autofocus,
+            validationMessages: widget.validationMessages,
+            inputFormatters: widget.inputFormatters,
+            keyboardType: widget.textInputType,
+            obscureText: widget.isPassword && !passwordVisible,
+            obscuringCharacter: '*',
             style: bodyText1(context).apply(fontSizeFactor: 1),
             decoration: InputDecoration(
-                labelText: label,
+                labelText: widget.label,
                 isDense: true,
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 floatingLabelAlignment: FloatingLabelAlignment.start,
-                helperText: description,
-                hintText: placeholder,
+                helperText: widget.description,
+                hintText: widget.placeholder,
                 hintStyle:
                     bodyText2(context).copyWith(color: kcVeryLightGreyColor),
-                prefixIcon: prefixIcon,
-                suffixIcon: suffixIcon ??
-                    ((tooltip != null && tooltip != "")
+                prefixIcon: widget.prefixIcon,
+                suffixIcon: widget.isPassword ? IconButton(onPressed: (){
+                  setState(() {
+                    passwordVisible = !passwordVisible;
+                  });
+                }, icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility)): widget.suffixIcon ??
+                    ((widget.tooltip != null && widget.tooltip != "")
                         ? Tooltip(
-                            message: tooltip,
+                            message: widget.tooltip,
                             child: const Icon(FontAwesomeIcons.circleInfo),
                           )
                         : null)),
