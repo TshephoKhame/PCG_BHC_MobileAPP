@@ -2,35 +2,40 @@ import 'package:bhc_mobile/app/app.bottomsheets.dart';
 import 'package:bhc_mobile/app/app.dialogs.dart';
 import 'package:bhc_mobile/app/app.locator.dart';
 import 'package:bhc_mobile/ui/common/app_strings.dart';
+import 'package:bhc_mobile/ui/views/home/home_view.dart';
+import 'package:bhc_mobile/ui/views/information_center/information_center_view.dart';
+import 'package:bhc_mobile/ui/views/maintenance_requests/maintenance_requests_view.dart';
+import 'package:bhc_mobile/ui/views/payments/payments_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../../app/app.logger.dart';
+import '../../../services/feedback_service.dart';
+
 class HomeViewModel extends BaseViewModel {
-  final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
+  final _logger = getLogger('HomeViewModel');
+  final _feedbackService = locator<FeedbackService>();
 
-  String get counterLabel => 'Counter is: $_counter';
-
-  int _counter = 0;
-
-  void incrementCounter() {
-    _counter++;
-    rebuildUi();
+  BuildContext context;
+  HomeViewModel(this.context) {
+    _feedbackService.init(context);
   }
 
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Stacked Rocks!',
-      description: 'Give stacked $_counter stars on Github',
-    );
+  bool get isTenant => false;
+
+  int _pageIndex = 0;
+  int get pageIndex => _pageIndex;
+  set setPageIndex(int index) {
+    _pageIndex = index;
+    notifyListeners();
   }
 
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
-  }
+  List<Widget> get pages => _pages;
+  final List<Widget> _pages = const [
+    HomeView(),
+    PaymentsView(),
+    MaintenanceRequestsView(),
+    InformationCenterView()
+  ];
 }

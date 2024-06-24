@@ -76,8 +76,8 @@ class RegisterView extends StackedView<RegisterViewModel> {
                                           },
                                           parentForm: viewModel.registerForm,
                                           isPassword: true,
-                                          prefixIcon: const Icon(
-                                              Icons.lock_outline)),
+                                          prefixIcon:
+                                              const Icon(Icons.lock_outline)),
                                       verticalSpaceTiny,
                                       TextInputField(
                                           config: {
@@ -97,8 +97,8 @@ class RegisterView extends StackedView<RegisterViewModel> {
                                           },
                                           parentForm: viewModel.registerForm,
                                           isPassword: true,
-                                          prefixIcon: const Icon(
-                                              Icons.lock_outline)),
+                                          prefixIcon:
+                                              const Icon(Icons.lock_outline)),
                                       verticalSpaceMedium,
                                       ReactiveCheckboxListTile(
                                         formControlName: 'terms',

@@ -16,18 +16,19 @@ class StartupViewModel extends BaseViewModel {
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
     await Future.delayed(const Duration(seconds: 3));
-    if (_authService.authenticated) {
-      bool profileCreated =
-          await _dbService.get(key: 'profileCreated') ?? false;
-      if (profileCreated) {
-        _navigationService.replaceWithHomeView();
-      } else {
-        _logger.d('Profile not created..going to profile creation page');
-        _navigationService.replaceWithCompleteProfileView();
-      }
-    } else {
-      _logger.d('User not logged in...');
-      _navigationService.replaceWithRegisterView();
-    }
+    // if (_authService.authenticated) {
+    //   bool profileCreated =
+    //       await _dbService.get(key: 'profileCreated') ?? false;
+    //   if (profileCreated) {
+    //     _navigationService.replaceWithHomeView();
+    //   } else {
+    //     _logger.d('Profile not created..going to profile creation page');
+    //     _navigationService.replaceWithCompleteProfileView();
+    //   }
+    // } else {
+    //   _logger.d('User not logged in...');
+    //   _navigationService.replaceWithRegisterView();
+    // }
+    _navigationService.replaceWithPaymentsView();
   }
 }

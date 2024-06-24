@@ -75,6 +75,63 @@ class CustomButton extends StatelessWidget {
   }
 }
 
+class CustomMaterialButton extends StatelessWidget {
+  final Function()? onTap;
+  final String label;
+  final Color color, labelColor, iconColor;
+  final TextStyle textStyle;
+  final IconData icon;
+  final double width, height, borderRadius, iconSize;
+  const CustomMaterialButton({
+    Key? key,
+    required this.onTap,
+    required this.label,
+    this.color = bhcRed,
+    this.labelColor = kcWhiteColor,
+    this.iconColor = kcWhiteColor,
+    this.width = minButtonWidth,
+    this.height = buttonHeight,
+    this.borderRadius = kBorderRadius,
+    this.iconSize = generalIconSizeSmall,
+    this.textStyle = const TextStyle(
+      color: kcWhiteColor,
+    ),
+    this.icon = Icons.abc,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        // border: Border.all(
+        //   width: 8,
+        // ),
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      height: height,
+      width: width,
+      child: Center(
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: iconColor,
+              size: iconSize,
+            ),
+            horizontalSpaceTiny,
+            Text(
+              label,
+              style: textStyle,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class BusyButton extends StatelessWidget {
   final Function()? onTap;
   final String label;
@@ -96,9 +153,13 @@ class BusyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isBusy
-        ? const LoadingIndicator(
-            indicatorType: Indicator.ballScaleRippleMultiple,
-            colors: [bhcRed, bhcGreen, bhcYellow],
+        ? SizedBox(
+            width: width / 3,
+            height: 20,
+            child: const LoadingIndicator(
+              indicatorType: Indicator.ballPulse,
+              colors: [bhcRed, bhcGreen, bhcYellow],
+            ),
           )
         : ButtonTheme(
             minWidth: width,

@@ -52,9 +52,9 @@ class LoginView extends StackedView<LoginViewModel> {
                                             'label': 'Email Address',
                                             'validationMessages': {
                                               ValidationMessage.email: (error) =>
-                                              'Enter a valid email address',
+                                                  'Enter a valid email address',
                                               ValidationMessage.required: (error) =>
-                                              'Please enter an email address'
+                                                  'Please enter an email address'
                                             }
                                           },
                                           parentForm: viewModel.loginForm,
@@ -68,29 +68,29 @@ class LoginView extends StackedView<LoginViewModel> {
                                             'validationMessages': {
                                               ValidationMessage.minLength:
                                                   (error) =>
-                                              'Password too short',
+                                                      'Password too short',
                                               ValidationMessage.required:
                                                   (error) =>
-                                              'Password is required'
+                                                      'Password is required'
                                             }
                                           },
                                           parentForm: viewModel.loginForm,
                                           isPassword: true,
-                                          prefixIcon: const Icon(
-                                              Icons.lock_outline)),
+                                          prefixIcon:
+                                              const Icon(Icons.lock_outline)),
                                       verticalSpaceMedium,
                                       ReactiveFormConsumer(
                                           builder: (_, form, child) =>
                                               BusyButton(
                                                   onTap: form.valid
-                                                      ? () =>
-                                                      viewModel.login()
+                                                      ? () => viewModel.login()
                                                       : null,
                                                   width: 80.sw,
                                                   label: 'Login',
                                                   isBusy: viewModel.isBusy)),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           TextButton(
                                               onPressed: () =>
@@ -99,18 +99,20 @@ class LoginView extends StackedView<LoginViewModel> {
                                                 'Recover Password',
                                                 style: bodyText2(context)
                                                     .copyWith(
-                                                  decoration: TextDecoration.underline,
-                                                    decorationThickness: .2,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    color: bhcRed),
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        decorationThickness: .2,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: bhcRed),
                                               ))
                                         ],
                                       ),
                                       const Divider(),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Don\'t have an account yet?',
@@ -118,15 +120,15 @@ class LoginView extends StackedView<LoginViewModel> {
                                                 .apply(fontSizeFactor: .85),
                                           ),
                                           TextButton(
-                                              onPressed: () =>
-                                                  viewModel.goToRegistrationPage(),
+                                              onPressed: () => viewModel
+                                                  .goToRegistrationPage(),
                                               child: Text(
                                                 'Register ',
                                                 style: bodyText2(context)
                                                     .copyWith(
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    color: bhcRed),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: bhcRed),
                                               ))
                                         ],
                                       )

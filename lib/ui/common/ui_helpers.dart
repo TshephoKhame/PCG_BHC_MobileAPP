@@ -29,6 +29,7 @@ const double fieldHeight = kIsWeb ? 55 : 45;
 const kDefaultBlur = 5.0;
 const kBorderRadius = 12.0;
 const kSpacing = 20.0;
+const double generalIconSizeSmall = 14;
 
 const Widget horizontalSpaceTiny = SizedBox(width: _tinySize);
 const Widget horizontalSpaceSmall = SizedBox(width: _smallSize);
@@ -437,5 +438,28 @@ Future openBottomSheet(
         ),
       );
     },
+  );
+}
+
+Gradient createLinearGradient({
+  required Color color1,
+  required Color color2,
+  Color? color3,
+  Color? color4,
+  Color? color5,
+}) {
+  // Filter out null values
+  final colors = [
+    color1,
+    color2,
+    if (color3 != null) color3,
+    if (color4 != null) color4,
+    if (color5 != null) color5,
+  ];
+
+  return LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: colors,
   );
 }

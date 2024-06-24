@@ -10,7 +10,11 @@ class TextInputField extends StatefulWidget {
   final Widget? prefixIcon;
   final bool isPassword;
   const TextInputField(
-      {super.key, required this.config, this.parentForm, this.prefixIcon, this.isPassword = false});
+      {super.key,
+      required this.config,
+      this.parentForm,
+      this.prefixIcon,
+      this.isPassword = false});
 
   @override
   State<TextInputField> createState() => _TextInputFieldState();
@@ -39,10 +43,8 @@ class _TextInputFieldState extends State<TextInputField> {
     label = config['label'] ?? config['type'];
     description = config['description'];
     tooltip = config['tooltip'];
-    validationMessages = config['validationMessages'] ?? {
-      ValidationMessage.required: (error) =>
-      'This field is required'
-    };
+    validationMessages = config['validationMessages'] ??
+        {ValidationMessage.required: (error) => 'This field is required'};
     maxLength = (config['properties']?['maxLength'] ?? "").toString().isNotEmpty
         ? int.parse(config['properties']?['maxLength'])
         : null;

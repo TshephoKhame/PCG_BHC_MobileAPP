@@ -107,17 +107,23 @@ class _RTextFieldState extends State<RTextField> {
                 hintStyle:
                     bodyText2(context).copyWith(color: kcVeryLightGreyColor),
                 prefixIcon: widget.prefixIcon,
-                suffixIcon: widget.isPassword ? IconButton(onPressed: (){
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                }, icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility)): widget.suffixIcon ??
-                    ((widget.tooltip != null && widget.tooltip != "")
-                        ? Tooltip(
-                            message: widget.tooltip,
-                            child: const Icon(FontAwesomeIcons.circleInfo),
-                          )
-                        : null)),
+                suffixIcon: widget.isPassword
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        icon: Icon(passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility))
+                    : widget.suffixIcon ??
+                        ((widget.tooltip != null && widget.tooltip != "")
+                            ? Tooltip(
+                                message: widget.tooltip,
+                                child: const Icon(FontAwesomeIcons.circleInfo),
+                              )
+                            : null)),
           ),
         ],
       ),
