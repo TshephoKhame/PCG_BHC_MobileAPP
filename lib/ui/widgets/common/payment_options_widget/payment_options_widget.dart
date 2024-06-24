@@ -2,6 +2,7 @@ import 'package:bhc_mobile/ui/common/app_colors.dart';
 import 'package:bhc_mobile/ui/common/text_styles.dart';
 import 'package:bhc_mobile/ui/common/ui_helpers.dart';
 import 'package:bhc_mobile/ui/views/payments/payments_viewmodel.dart';
+import 'package:bhc_mobile/ui/views/payments/widgets/saved_payment_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -37,66 +38,19 @@ class PaymentOptionsWidget extends StackedView<PaymentOptionsWidgetModel> {
                         style: subtitle1(context),
                       ),
                     ),
-                    ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                      leading: Image.asset('assets/images/visa_card.png',
-                          width: 40), // Placeholder for Visa logo
-                      title: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'Card ending with **** 1234',
-                          style: tinyText(context),
-                        ),
-                      ),
-                      subtitle: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'Expired',
-                          style: tinyText(context),
-                        ),
-                      ),
-                      trailing: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          textStyle: tinyText(context)
-                              .copyWith(fontWeight: FontWeight.w100),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          backgroundColor: bhcRed,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: Text('Remove'),
-                      ),
+                    ...vm.savedCards.map(
+                      (savedCards) {
+                        return SavedPaymentCards(
+                            savedCards: savedCards, vm: vm);
+                      },
                     ),
-                    ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                      leading: Image.asset('assets/images/visa_card.png',
-                          width: 40), // Placeholder for Visa logo
-                      title: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'Card ending with **** 5874',
-                          style: tinyText(context),
+                    if (vm.savedCards.isEmpty)
+                      Container(
+                        height: 60,
+                        child: Center(
+                          child: Text('No Cards Available'),
                         ),
                       ),
-                      subtitle: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          '07/25',
-                          style: tinyText(context),
-                        ),
-                      ),
-                      trailing: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          textStyle: tinyText(context)
-                              .copyWith(fontWeight: FontWeight.w100),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          backgroundColor: bhcYellow,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () {},
-                        child: Text('Pay'),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -113,23 +67,20 @@ class PaymentOptionsWidget extends StackedView<PaymentOptionsWidgetModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset('assets/images/master_card.png',
-                    width: 55), // Placeholder for MasterCard logo
-                Image.asset('assets/images/visa_card.png',
-                    width: 55), // Placeholder for Visa logo
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop('OrangeMoney');
+                    //Navigator.of(context).pop('OrangeMoney');
+                    vm.showAlternatePaymentDialog('OrangeMoney');
                   },
                   child:
-                      Image.asset('assets/images/Orange_money.png', width: 55),
+                      Image.asset('assets/images/Orange_money.png', width: 70),
                 ), // Placeholder for another payment option logo
                 GestureDetector(
                   onTap: () {
                     //Navigator.of(context).pop('MyZaka');
-                    vm.showAlternatePaymentDialog(context, 'MyZaka');
+                    vm.showAlternatePaymentDialog('MyZaka');
                   },
-                  child: Image.asset('assets/images/my_zaka.png', width: 55),
+                  child: Image.asset('assets/images/my_zaka.png', width: 70),
                 ), // Placeholder for MyZaka logo
               ],
             ),
@@ -137,7 +88,9 @@ class PaymentOptionsWidget extends StackedView<PaymentOptionsWidgetModel> {
             Align(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  vm.showBankDepositDialog();
+                },
                 style: ElevatedButton.styleFrom(
                   textStyle:
                       tinyText(context).copyWith(fontWeight: FontWeight.w100),
@@ -145,7 +98,7 @@ class PaymentOptionsWidget extends StackedView<PaymentOptionsWidgetModel> {
                   backgroundColor: bhcYellow,
                   foregroundColor: Colors.white,
                 ),
-                child: Text(
+                child: const Text(
                   'Bank Deposit',
                 ),
               ),
@@ -167,11 +120,19 @@ class PaymentOptionsWidget extends StackedView<PaymentOptionsWidgetModel> {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text('Add New Card'),
+                onPressed: () {
+                  vm.showAddCardDialog();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: bhcRed,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  textStyle: titleSmall(context).copyWith(
+                      fontWeight: FontWeight.w100, color: kcWhiteColor),
+                  padding: EdgeInsets.symmetric(horizontal: 70, vertical: 15),
+                ),
+                child: Text(
+                  'Add New Card',
+                  style: titleSmall(context).copyWith(
+                      fontWeight: FontWeight.w100, color: kcWhiteColor),
                 ),
               ),
             ),

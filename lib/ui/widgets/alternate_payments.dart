@@ -1,15 +1,21 @@
 import 'package:bhc_mobile/ui/common/app_colors.dart';
 import 'package:bhc_mobile/ui/common/text_styles.dart';
 import 'package:bhc_mobile/ui/common/ui_helpers.dart';
+import 'package:bhc_mobile/ui/views/payments/payments_viewmodel.dart';
+import 'package:bhc_mobile/ui/widgets/common/form_fields/file_upload_field.dart';
 import 'package:bhc_mobile/ui/widgets/common/payment_options_widget/payment_options_widget_model.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 
 class AlternatePaymentOptionsWidget
     extends StackedView<PaymentOptionsWidgetModel> {
   final String paymentOptions;
+  final PaymentsViewModel vm;
+
   const AlternatePaymentOptionsWidget(
-      {required this.paymentOptions, super.key});
+      {required this.vm, required this.paymentOptions, super.key});
 
   @override
   Widget builder(
@@ -28,16 +34,26 @@ class AlternatePaymentOptionsWidget
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  child: paymentOptions == 'OrangeMoney'
-                      ? Image.asset('assets/images/Orange_money.png',
-                          width: screenWidth(context))
-                      : Image.asset('assets/images/my_zaka.png',
-                          width: screenWidth(
-                              context)), // Placeholder for MyZaka logo,),
-                ),
+                    color: kcWhiteColor,
+                    child: paymentOptions == 'OrangeMoney'
+                        ? Container(
+                            height: 100,
+                            child: Image.asset(
+                              'assets/images/Orange_money.png',
+                              width: screenWidth(context),
+                              fit: BoxFit.fitWidth,
+                            ),
+                          )
+                        : Container(
+                            height: 100,
+                            child: Image.asset(
+                              'assets/images/my_zaka.png',
+                              width: screenWidth(context),
+                            ),
+                          )),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Payment Details',
               style: titleMedium(context),
@@ -53,21 +69,46 @@ class AlternatePaymentOptionsWidget
             ),
             verticalSpaceMedium,
             Text(
+              textAlign: TextAlign.center,
               'Once you have completed the payment, please upload a proof of payment document.',
               style: tinyText(context),
             ),
             verticalSpaceSmall,
+            ReactiveForm(
+              formGroup: vm.uploadPoPForm,
+              child: Column(
+                children: [
+                  FileUploadField(
+                    config: {
+                      'name': 'upload',
+                      'label': 'Uplaod File',
+                      'validationMessages': {
+                        ValidationMessage.required: (error) =>
+                            'Please enter an email address'
+                      }
+                    },
+                    parentForm: vm.uploadPoPForm,
+                  ),
+                ],
+              ),
+            ),
+            verticalSpaceSmall,
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
+                onPressed: () async {
+                  await vm.savePayments(
+                      paymentMethod: paymentOptions, amount: 'P1,200,000');
+                  vm.successfulyPayedDialog();
                 },
-                child: Text('Submit'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: bhcRed,
                   foregroundColor: kcWhiteColor,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 100,
+                    vertical: 15,
+                  ),
                 ),
+                child: const Text('Submit'),
               ),
             ),
           ],

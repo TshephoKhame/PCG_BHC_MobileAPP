@@ -20,64 +20,7 @@ class PaymentsView extends StackedView<PaymentsViewModel> {
     return Scaffold(
       body: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient:
-                      createLinearGradient(color1: bhcYellow, color2: bhcRed)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Rent Payment Status',
-                        style: titleSmall(context).copyWith(
-                            color: kcWhiteColor, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'P1,200,000',
-                        style: titleSmall(context).copyWith(
-                            color: kcWhiteColor, fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: kcWhiteColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 8.0),
-                        child: Text(
-                          'Due: ${viewModel.paymentTenDaysAway}',
-                          style: bodyText2(context).copyWith(
-                            color: bhcRed,
-                          ),
-                        ),
-                      ),
-                      verticalSpaceSmall,
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // Implement download functionality
-                          viewModel.showPayNowDialog(context);
-                        },
-                        label: const Text('Pay Now'),
-                        style: ElevatedButton.styleFrom(
-                          textStyle: tinyText(context),
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          backgroundColor: bhcYellow,
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          _topBanner(context, viewModel),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -100,7 +43,11 @@ class PaymentsView extends StackedView<PaymentsViewModel> {
                       height: 0.2,
                       thickness: 0.2,
                     ),
-                    PaymentHistoryCard(),
+                    ...viewModel.paymentOption.map(
+                      (paymentOption) {
+                        return PaymentHistoryCard(paymentOption: paymentOption);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -240,6 +187,79 @@ Widget _paymentHistoryCard(context) {
             borderRadius: 25,
           ),
         ],
+      ),
+    ),
+  );
+}
+
+_topBanner(context, viewModel) {
+  return ClipRRect(
+    borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(30.0),
+      bottomRight: Radius.circular(30.0),
+    ),
+    child: Container(
+      decoration: BoxDecoration(
+          gradient: createLinearGradient(color1: bhcYellow, color2: bhcRed)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                'Rent Payment Status',
+                style: titleSmall(context)
+                    .copyWith(color: kcWhiteColor, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'P1,200,000',
+                style: titleSmall(context)
+                    .copyWith(color: kcWhiteColor, fontWeight: FontWeight.bold),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: kcWhiteColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                child: Text(
+                  'Due: ${viewModel.paymentTenDaysAway}',
+                  style: bodyText2(context).copyWith(
+                    color: bhcRed,
+                  ),
+                ),
+              ),
+              verticalSpaceSmall,
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Implement download functionality
+                  viewModel.showPayNowDialog();
+                },
+                label: const Text('Pay Now'),
+                style: ElevatedButton.styleFrom(
+                  textStyle: tinyText(context),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  backgroundColor: bhcYellow,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Implement download functionality
+                  viewModel.clearDB();
+                },
+                label: const Text('clear db'),
+                style: ElevatedButton.styleFrom(
+                  textStyle: tinyText(context),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  backgroundColor: bhcRed,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     ),
   );

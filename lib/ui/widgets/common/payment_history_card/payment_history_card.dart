@@ -1,6 +1,7 @@
 import 'package:bhc_mobile/ui/common/app_colors.dart';
 import 'package:bhc_mobile/ui/common/text_styles.dart';
 import 'package:bhc_mobile/ui/common/ui_helpers.dart';
+import 'package:bhc_mobile/ui/views/payments/payments_viewmodel.dart';
 import 'package:bhc_mobile/ui/widgets/common/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -8,7 +9,8 @@ import 'package:stacked/stacked.dart';
 import 'payment_history_card_model.dart';
 
 class PaymentHistoryCard extends StackedView<PaymentHistoryCardModel> {
-  const PaymentHistoryCard({super.key});
+  final Map<String, dynamic> paymentOption;
+  const PaymentHistoryCard({super.key, required this.paymentOption});
 
   @override
   Widget builder(
@@ -50,7 +52,7 @@ class PaymentHistoryCard extends StackedView<PaymentHistoryCardModel> {
                         ),
                         horizontalSpaceTiny,
                         Text(
-                          '₱ 1,200.00',
+                          paymentOption['Amount'],
                           style: tinyText(context),
                         ),
                       ],
@@ -84,7 +86,7 @@ class PaymentHistoryCard extends StackedView<PaymentHistoryCardModel> {
                         ),
                         horizontalSpaceTiny,
                         Text(
-                          'February 1, 2024',
+                          paymentOption['DatePayed'],
                           style: tinyText(context),
                         ),
                       ],
@@ -99,7 +101,7 @@ class PaymentHistoryCard extends StackedView<PaymentHistoryCardModel> {
                         ),
                         horizontalSpaceTiny,
                         Text(
-                          'Credit Card (Visa)',
+                          paymentOption['PaymentMethod'],
                           style: tinyText(context),
                         ),
                       ],
@@ -113,7 +115,7 @@ class PaymentHistoryCard extends StackedView<PaymentHistoryCardModel> {
                         ),
                         horizontalSpaceTiny,
                         Text(
-                          'RNT-20240101-001',
+                          paymentOption['ReceiptNumber'],
                           style: tinyText(context),
                         ),
                       ],
