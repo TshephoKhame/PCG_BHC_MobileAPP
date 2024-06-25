@@ -573,6 +573,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.7.0"
+  gleap_sdk:
+    dependency: "direct main"
+    description:
+      name: gleap_sdk
+      sha256: "27b8ad804da2441b667b766a236a457b8badfa26853eebcef9eea2c73cb96743"
+      url: "https://pub.dev"
+    source: hosted
+    version: "13.7.1"
   glob:
     dependency: transitive
     description:

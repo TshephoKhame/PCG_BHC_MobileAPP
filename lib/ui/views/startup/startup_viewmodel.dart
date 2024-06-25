@@ -1,5 +1,6 @@
 import 'package:bhc_mobile/services/auth_service.dart';
 import 'package:bhc_mobile/services/local_database_service.dart';
+import 'package:gleap_sdk/gleap_sdk.dart';
 import 'package:stacked/stacked.dart';
 import 'package:bhc_mobile/app/app.locator.dart';
 import 'package:bhc_mobile/app/app.router.dart';
@@ -29,6 +30,7 @@ class StartupViewModel extends BaseViewModel {
     //   _logger.d('User not logged in...');
     //   _navigationService.replaceWithRegisterView();
     // }
+
     _navigationService.replaceWithPaymentsView();
   }
 }

@@ -7,10 +7,12 @@ import 'package:bhc_mobile/app/app.locator.dart';
 import 'package:bhc_mobile/app/app.router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:gleap_sdk/gleap_sdk.dart';
 
 final _db = locator<LocalDatabaseService>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Gleap.initialize(token: '4KWJADzEn7FQBm03pTiiwoa3RZQzcXbD');
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
