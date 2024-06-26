@@ -1,5 +1,7 @@
 import 'package:bhc_mobile/ui/common/app_colors.dart';
 import 'package:bhc_mobile/ui/common/ui_helpers.dart';
+import 'package:bhc_mobile/ui/views/payments/payments_view_tps.dart';
+import 'package:bhc_mobile/ui/views/payments/widgets/tps_history_card.dart';
 import 'package:bhc_mobile/ui/widgets/common/buttons.dart';
 import 'package:bhc_mobile/ui/widgets/common/payment_history_card/payment_history_card.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +48,8 @@ class PaymentsView extends StackedView<PaymentsViewModel> {
                     ),
                     ...viewModel.paymentOption.map(
                       (paymentOption) {
-                        return PaymentHistoryCard(paymentOption: paymentOption);
+                        return PaymentHistoryCard(
+                            paymentOption: paymentOption!);
                       },
                     ),
                   ],
@@ -107,7 +110,7 @@ _topBanner(context, viewModel) {
               verticalSpaceSmall,
               ElevatedButton.icon(
                 onPressed: () {
-                  // Implement download functionality
+                  viewModel.isTPSPayment = 'Rent';
                   viewModel.showPayNowDialog();
                 },
                 label: const Text('Pay Now'),
@@ -115,6 +118,22 @@ _topBanner(context, viewModel) {
                   textStyle: tinyText(context),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   backgroundColor: bhcYellow,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const TPSView(),
+                    ),
+                  );
+                },
+                label: const Text('go'),
+                style: ElevatedButton.styleFrom(
+                  textStyle: tinyText(context),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  backgroundColor: bhcRed,
                   foregroundColor: Colors.white,
                 ),
               ),

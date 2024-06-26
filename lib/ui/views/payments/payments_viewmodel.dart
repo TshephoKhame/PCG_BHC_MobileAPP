@@ -27,6 +27,7 @@ class PaymentsViewModel extends BaseViewModel {
   final _dbService = locator<LocalDatabaseService>();
   List<Map<String, dynamic>> paymentOption = [];
   List<Map<String, dynamic>> savedCards = [];
+  String isTPSPayment = '';
   final Random _random = Random();
   BuildContext context;
   PaymentsViewModel(this.context) {
@@ -52,6 +53,34 @@ class PaymentsViewModel extends BaseViewModel {
     //notifyListeners();
   }
 
+  bool get isTPS => true; // Sample date
+
+  String get paymentDueDate => "10/07/2024"; // Sample date
+
+  double get totalPaid => 5000.00;
+  double get remainingBalance => 7000.00;
+
+  List<Map<String, dynamic>> tpsOptions = [
+    {
+      'Amount': 'P2,500.00',
+      'Status': 'Successful',
+      'DatePaid': '01/06/2024',
+      'PaymentMethod': 'Bank Transfer',
+      'ReceiptNumber': '123456789'
+    },
+    {
+      'Amount': 'P2,500.00',
+      'Status': 'Successful',
+      'DatePaid': '01/05/2024',
+      'PaymentMethod': 'Credit Card',
+      'ReceiptNumber': '987654321'
+    },
+  ];
+
+  // void showPayNowDialog() {
+  //   // Implement the functionality to show payment dialog
+  // }
+
   Future<void> savePayments(
       {required String paymentMethod, required String amount}) async {
     String message = "";
@@ -61,7 +90,8 @@ class PaymentsViewModel extends BaseViewModel {
       'ReceiptNumber': receiptNumber,
       'Amount': amount,
       'PaymentMethod': paymentMethod,
-      'DatePayed': date
+      'DatePayed': date,
+      'IsTPS': isTPSPayment == '' ? 'Rent' : isTPSPayment,
     };
     paymentOption.add(savingPaymentOption);
     await _dbService.save(key: 'payment', value: paymentOption, log: true);
@@ -89,13 +119,22 @@ class PaymentsViewModel extends BaseViewModel {
       final payments = await _dbService.get(key: 'payment');
       if (payments != null && payments is List) {
         paymentOption = payments.map((payment) {
-          if (payment is Map) {
+          if (payment is Map && payment['IsTPS'] == 'Rent') {
             return Map<String, dynamic>.from(payment);
           } else {
             _logger.e('Unexpected data format in payments: $payment');
             return <String, dynamic>{};
           }
         }).toList();
+        tpsOptions = payments.map((payment) {
+          if (payment is Map && payment['IsTPS'] == 'TPS') {
+            return Map<String, dynamic>.from(payment);
+          } else {
+            _logger.e('Unexpected data format in payments: $payment');
+            return <String, dynamic>{};
+          }
+        }).toList();
+        _logger.d('Pulled payments: $tpsOptions');
         _logger.d('Pulled payments: $paymentOption');
       } else {
         _logger.d('Payments is: $payments');
